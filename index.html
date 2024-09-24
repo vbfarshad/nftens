@@ -11,24 +11,26 @@
         <button id="theme-toggle">Switch to Light Mode</button> <!-- Toggle Button -->
     </div>
     <h1>NFT Price Tracker</h1>
-    <div class="table-container">
-        <div id="nft-prices" class="price-table"></div>
-        <div id="ens-sales" class="price-table"></div>
-    </div>
+    <div id="prices"></div>
+    <div id="ens-sales"></div> <!-- ENS Sales Section -->
 
     <script src="script.js"></script>
 
+    <!-- Add the JavaScript code to handle the toggle -->
     <script>
         const toggleButton = document.getElementById('theme-toggle');
         const body = document.body;
 
+        // Check if user preference is stored
         const savedTheme = localStorage.getItem('theme');
 
+        // Set the theme based on saved preference
         if (savedTheme) {
             body.className = savedTheme;
             toggleButton.textContent = savedTheme === 'dark-mode' ? 'Switch to Light Mode' : 'Switch to Dark Mode';
         }
 
+        // Toggle theme on button click
         toggleButton.addEventListener('click', function () {
             if (body.classList.contains('dark-mode')) {
                 body.classList.replace('dark-mode', 'light-mode');
