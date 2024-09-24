@@ -3,20 +3,48 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>NFT Price Tracker</title>
+    <title>NFT Price & ENS Sales Tracker</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body class="dark-mode"> <!-- Default is dark mode -->
     <div id="toggle-container">
         <button id="theme-toggle">Switch to Light Mode</button> <!-- Toggle Button -->
     </div>
-    <h1>NFT Price Tracker</h1>
-    <div id="prices"></div>
-    <div id="ens-sales"></div> <!-- ENS Sales Section -->
+
+    <h1>NFT Price & ENS Sales Tracker</h1>
+
+    <div class="tables-container">
+        <!-- NFT Prices Table -->
+        <div id="nft-prices">
+            <h2>NFT Prices</h2>
+            <table id="prices-table">
+                <thead>
+                    <tr>
+                        <th>Token</th>
+                        <th>Price (ETH)</th>
+                        <th>Image</th>
+                    </tr>
+                </thead>
+                <tbody id="prices"></tbody>
+            </table>
+        </div>
+
+        <!-- ENS Sales Table -->
+        <div id="ens-sales">
+            <h2>ENS Sales</h2>
+            <table id="ens-sales-table">
+                <thead>
+                    <tr>
+                        <th>ENS Name</th>
+                        <th>Price (ETH)</th>
+                    </tr>
+                </thead>
+                <tbody id="ens-sales-tbody"></tbody>
+            </table>
+        </div>
+    </div>
 
     <script src="script.js"></script>
-
-    <!-- Add the JavaScript code to handle the toggle -->
     <script>
         const toggleButton = document.getElementById('theme-toggle');
         const body = document.body;
