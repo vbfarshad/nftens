@@ -1,85 +1,80 @@
-/* General styling */
+/* General styles */
 body {
     font-family: Arial, sans-serif;
+    background-color: #121212; /* Dark mode background */
+    color: #ffffff; /* Dark mode text color */
     margin: 0;
-    padding: 0;
-    background-color: #121212;
-    color: #ffffff;
-}
-
-/* Container for side-by-side tables */
-#tracker-container {
-    display: flex;
-    justify-content: space-between;
     padding: 20px;
 }
 
-.tracker-box {
-    width: 45%; /* Makes each box 45% width of the container for side-by-side */
-    padding: 20px;
-    background-color: #1e1e1e;
-    border-radius: 8px;
-    border: 1px solid #333;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
-    transition: border 0.3s ease;
+/* Light mode styles */
+.light-mode {
+    background-color: #ffffff; /* Light mode background */
+    color: #000000; /* Light mode text color */
 }
 
-.tracker-box h2 {
-    margin-top: 0;
+/* Title styles */
+h1 {
     text-align: center;
 }
 
-/* Animated border for tables */
-.tracker-box:hover {
-    border-color: #00ffcc;
-}
-
-/* Dark and light mode styles */
-.light-mode {
-    background-color: #f0f0f0;
-    color: #000;
-}
-
-.light-mode .tracker-box {
-    background-color: #ffffff;
-    color: #000;
-}
-
-.dark-mode {
-    background-color: #121212;
-    color: #ffffff;
-}
-
-.dark-mode .tracker-box {
-    background-color: #1e1e1e;
-}
-
-/* Toggle button styling */
+/* Container for the toggle button */
 #toggle-container {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    z-index: 1000;
+}
+
+/* Table styles */
+#prices, #ens-sales {
     display: flex;
-    justify-content: flex-end;
-    padding: 20px;
+    flex-wrap: wrap;
+    justify-content: center; /* Center the content */
+    margin: 20px 0;
 }
 
-#theme-toggle {
-    background-color: #333;
-    color: #fff;
-    border: none;
-    border-radius: 50px;
-    padding: 10px 20px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
+.token {
+    background-color: #1f1f1f; /* Card background */
+    border: 1px solid #444; /* Border */
+    border-radius: 8px; /* Rounded corners */
+    margin: 10px;
+    padding: 10px;
+    width: 150px; /* Fixed width */
+    text-align: center; /* Centered text */
+    transition: border 0.3s ease; /* Border transition */
 }
 
-#theme-toggle:hover {
-    background-color: #00ffcc;
+.token img {
+    width: 100%; /* Responsive image */
+    height: auto; /* Maintain aspect ratio */
+    border-radius: 8px; /* Rounded corners for images */
 }
 
-.light-mode #theme-toggle {
-    background-color: #ddd;
-    color: #000;
+.token:hover {
+    border: 1px solid #007bff; /* Change border color on hover */
 }
 
-.light-mode #theme-toggle:hover {
-    background-color: #00ccff;
+/* ENS sales styles */
+#ens-sales {
+    margin-top: 20px;
+}
+
+h2 {
+    width: 100%; /* Full width for titles */
+    text-align: center;
+    margin: 15px 0; /* Margin around titles */
+}
+
+/* Media queries for responsiveness */
+@media (max-width: 768px) {
+    .token {
+        width: 100px; /* Smaller width for mobile */
+    }
+}
+
+@media (max-width: 480px) {
+    .token {
+        width: 80px; /* Even smaller width for very small screens */
+    }
 }
