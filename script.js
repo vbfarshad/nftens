@@ -1,122 +1,161 @@
-// Grab the pricesDiv and ensSalesDiv elements where we will display the NFT prices and ENS sales
 const pricesDiv = document.getElementById("prices");
-const ensSalesDiv = document.getElementById("ensSales");
+const apiKey = 'a5d354d5-d348-5802-be9a-147a5dd5caa8';  // Your Reservoir API key
 
-// Your API keys from Reservoir and ENS
-const apiKeyReservoir = 'a5d354d5-d348-5802-be9a-147a5dd5caa8'; // Replace with your Reservoir API key
-const apiKeyENS = 'a5d354d5-d348-5802-be9a-147a5dd5caa8'; // Replace with ENS API key
-
-// Define the collection contract addresses you want to fetch data from
 const collectionContracts = [
-    '0xBC4CA0EdA7647A8aB7C2061c2E118A18a936f13D',  // BAYC
+    '0xBC4CA0EdA7647A8aB7C2061c2E118A18a936f13D',  // Example NFT collection
     '0x79FCDEF22feeD20eDDacbB2587640e45491b757f',   // Another collection contract
     '0x282BDD42f4eb70e7A9D9F40c8fEA0825B7f68C5D',
     '0xB852c6b5892256C264Cc2C888eA462189154D8d7',
     
 ];
 
-// Fetch NFT prices for each collection from Reservoir API
-function fetchNFTPrices() {
-    collectionContracts.forEach(contract => {
-        fetch(`https://api.reservoir.tools/tokens/v5?collection=${contract}`, {
-            headers: {
-                'x-api-key': apiKeyReservoir  // Pass the API key in the headers
-            }
-        })
-        .then(response => {
-            if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
-            return response.json(); // Parse JSON if response is OK
-        })
-        .then(data => {
-            if (data.tokens) {
-                const table = document.createElement('table');
-                table.innerHTML = `
-                    <thead>
-                        <tr>
-                            <th>Token</th>
-                            <th>Price (ETH)</th>
-                            <th>Marketplace</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                    </tbody>
-                `;
-                data.tokens.forEach(token => {
-                    const price = token.market.floorAsk?.price?.amount?.native || "Not for sale";
-                    const title = token.token.name || `Token ID: ${token.token.tokenId}`;
-                    const marketplaceLink = `https://opensea.io/assets/${contract}/${token.token.tokenId}`;
-                    
-                    const row = document.createElement('tr');
-                    row.innerHTML = `
-                        <td>${title}</td>
-                        <td>${price}</td>
-                        <td><a href="${marketplaceLink}" target="_blank">
-                            <img src="https://opensea.io/static/images/logos/opensea-logo.svg" width="20" alt="OpenSea">
-                        </a></td>
-                    `;
-                    table.querySelector('tbody').appendChild(row);
-                });
-                pricesDiv.appendChild(table);
-            } else {
-                pricesDiv.innerHTML = "<p>No tokens found for this collection.</p>";
-            }
-        })
-        .catch(error => {
-            console.error('Error fetching NFT prices:', error);
-            pricesDiv.innerHTML = "<p>Failed to load prices from Reservoir.</p>";
-        });
-    });
-}
+const ensDomain = "example.eth"; // Replace with the ENS domain you want to track
 
-// Fetch ENS sales data
-function fetchENSSales() {
-    fetch(`https://api.ens-vision.tools/ens-sales/v1/recent`, {
+// Fetch and display NFT prices
+collectionContracts.forEach(collectionContract => {
+    fetch(`https://api.reservoir.tools/collections/v5?id=${collectionContract}`, {
         headers: {
-            'Authorization': `Bearer ${apiKeyENS}`
+            'x-api-key': apiKey
         }
     })
-    .then(response => {
-        if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
-        return response.json(); // Parse JSON if response is OK
-    })
+    .then(response => response.json())
     .then(data => {
-        if (data.sales) {
+        if (data.collections && data.collections.length > 0) {
+            const collection = data.collections[0];
+            const collectionName = collection.name;
+            const collectionIcon = collection.image;
+
+            const collectionDiv = document.createElement('div');
+            collectionDiv.classList.add('collection');
+
+            const collectionHeader = `
+                <div class="collection-header">
+                    <img src="${collectionIcon}" alt="${collectionName}" width="50" height="50">
+                    <h2>${collectionName}</h2>
+                </div>`;
+            collectionDiv.innerHTML = collectionHeader;
+
             const table = document.createElement('table');
             table.innerHTML = `
                 <thead>
                     <tr>
-                        <th>Domain</th>
+                        <th>Token</th>
                         <th>Price (ETH)</th>
-                        <th>Buyer</th>
+                        <th>Marketplace</th>
                     </tr>
                 </thead>
-                <tbody>
-                </tbody>
+                <tbody></tbody>
             `;
-            data.sales.forEach(sale => {
-                const domain = sale.name;
-                const price = sale.price / 1e18; // Price in ETH (assuming price is in wei)
-                const buyer = sale.buyer || "Unknown";
-                
-                const row = document.createElement('tr');
-                row.innerHTML = `
-                    <td>${domain}</td>
-                    <td>${price}</td>
-                    <td>${buyer}</td>
-                `;
-                table.querySelector('tbody').appendChild(row);
+            collectionDiv.appendChild(table);
+            pricesDiv.appendChild(collectionDiv);
+
+            fetch(`https://api.reservoir.tools/tokens/v5?collection=${collectionContract}`, {
+                headers: {
+                    'x-api-key': apiKey
+                }
+            })
+            .then(response => response.json())
+            .then(data => {
+                const tbody = table.querySelector('tbody');
+
+                if (data.tokens) {
+                    data.tokens.forEach(token => {
+                        const price = token.market.floorAsk.price.amount.native || "Not for sale";
+                        const title = token.token.name || `Token ID: ${token.token.tokenId}`;
+                        const tokenId = token.token.tokenId;
+
+                        const openseaIcon = '<img src="https://opensea.io/static/images/logos/opensea-logo.svg" alt="OpenSea" width="20" height="20">';
+                        const blurIcon = '<img src="https://imgs.blur.io/_assets/homepage/logo.png" alt="Blur" width="20" height="20">';
+
+                        const row = `
+                            <tr>
+                                <td>
+                                    <img src="${token.token.image}" alt="${title}" width="50" height="50">
+                                    ${title}
+                                </td>
+                                <td>${price} ETH</td>
+                                <td>
+                                    <a href="https://opensea.io/assets/${collectionContract}/${tokenId}" target="_blank">${openseaIcon}</a> |
+                                    <a href="https://blur.io/eth/asset/${collectionContract}/${tokenId}" target="_blank">${blurIcon}</a>
+                                </td>
+                            </tr>`;
+                        tbody.innerHTML += row;
+                    });
+                } else {
+                    tbody.innerHTML = "<tr><td colspan='3'>No tokens found for this collection.</td></tr>";
+                }
+            })
+            .catch(error => {
+                console.error('Error fetching token data:', error);
+                const tbody = table.querySelector('tbody');
+                tbody.innerHTML = "<tr><td colspan='3'>Failed to load prices.</td></tr>";
             });
-            ensSalesDiv.appendChild(table);
         } else {
-            ensSalesDiv.innerHTML = "<p>No recent ENS sales found.</p>";
+            pricesDiv.innerHTML += `<p>No data for contract: ${collectionContract}</p>`;
         }
     })
     .catch(error => {
-        console.error('Error fetching ENS sales:', error);
-        ensSalesDiv.innerHTML = "<p>Failed to load ENS sales data.</p>";
+        console.error('Error fetching collection data:', error);
+        pricesDiv.innerHTML += `<p>Error fetching collection data for contract: ${collectionContract}</p>`;
     });
-}
+});
 
-// Call both functions to display data
-fetchNFTPrices();
-fetchENSSales();
+// Fetch and display ENS sales data
+fetch(`https://api.reservoir.tools/sales/v5?collection=${ensDomain}`, {
+    headers: {
+        'x-api-key': apiKey
+    }
+})
+.then(response => response.json())
+.then(data => {
+    const ensDiv = document.createElement('div');
+    ensDiv.classList.add('ens-sales');
+
+    const ensHeader = `
+        <div class="collection-header">
+            <h2>ENS Sales for ${ensDomain}</h2>
+        </div>`;
+    ensDiv.innerHTML = ensHeader;
+
+    const ensTable = document.createElement('table');
+    ensTable.innerHTML = `
+        <thead>
+            <tr>
+                <th>ENS Name</th>
+                <th>Price (ETH)</th>
+                <th>Marketplace</th>
+            </tr>
+        </thead>
+        <tbody></tbody>
+    `;
+    ensDiv.appendChild(ensTable);
+    pricesDiv.appendChild(ensDiv);
+
+    const tbody = ensTable.querySelector('tbody');
+
+    if (data.sales) {
+        data.sales.forEach(sale => {
+            const price = sale.price.amount.native || "Unknown";
+            const ensName = sale.token.name;
+            const openseaIcon = '<img src="https://opensea.io/static/images/logos/opensea-logo.svg" alt="OpenSea" width="20" height="20">';
+            const blurIcon = '<img src="https://imgs.blur.io/_assets/homepage/logo.png" alt="Blur" width="20" height="20">';
+
+            const row = `
+                <tr>
+                    <td>${ensName}</td>
+                    <td>${price} ETH</td>
+                    <td>
+                        <a href="https://opensea.io/assets/${sale.contract}/${sale.token.tokenId}" target="_blank">${openseaIcon}</a> |
+                        <a href="https://blur.io/eth/asset/${sale.contract}/${sale.token.tokenId}" target="_blank">${blurIcon}</a>
+                    </td>
+                </tr>`;
+            tbody.innerHTML += row;
+        });
+    } else {
+        tbody.innerHTML = "<tr><td colspan='3'>No sales data found for ENS.</td></tr>";
+    }
+})
+.catch(error => {
+    console.error('Error fetching ENS sales data:', error);
+    pricesDiv.innerHTML += `<p>Failed to load ENS sales data.</p>`;
+});
