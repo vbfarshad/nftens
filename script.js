@@ -1,15 +1,14 @@
 // Your Reservoir API key
 const apiKey = 'a5d354d5-d348-5802-be9a-147a5dd5caa8';  // Replace with your actual API key
 
-// ENS contract address for .eth domains
-const ensContractAddress = '0x57f1887a8BF19b14fC0dF6Fd9B2acc9Af147eA85';
-
 // NFT collection contract addresses
 const nftContracts = [
   '0xBC4CA0EdA7647A8aB7C2061c2E118A18a936f13D',  // Example NFT collection 1
-  '0x...OtherContractHere',  // Example NFT collection 2
-  // Add more contract addresses here
+  '0x...OtherContractHere'  // Example NFT collection 2
 ];
+
+// ENS contract address for .eth domains
+const ensContractAddress = '0x57f1887a8BF19b14fC0dF6Fd9B2acc9Af147eA85';
 
 // Function to fetch NFT prices for a collection
 function fetchNftPrices(contractAddress, tableId) {
