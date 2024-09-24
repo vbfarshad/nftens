@@ -1,80 +1,67 @@
-/* General styles */
 body {
     font-family: Arial, sans-serif;
-    background-color: #121212; /* Dark mode background */
-    color: #ffffff; /* Dark mode text color */
     margin: 0;
     padding: 20px;
+    background-color: #121212;
+    color: #ffffff;
 }
 
-/* Light mode styles */
-.light-mode {
-    background-color: #ffffff; /* Light mode background */
-    color: #000000; /* Light mode text color */
-}
-
-/* Title styles */
 h1 {
     text-align: center;
 }
 
-/* Container for the toggle button */
 #toggle-container {
-    position: fixed;
-    top: 20px;
-    right: 20px;
-    z-index: 1000;
+    text-align: right;
+    margin-bottom: 20px;
 }
 
-/* Table styles */
-#prices, #ens-sales {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center; /* Center the content */
-    margin: 20px 0;
-}
-
-.token {
-    background-color: #1f1f1f; /* Card background */
-    border: 1px solid #444; /* Border */
-    border-radius: 8px; /* Rounded corners */
-    margin: 10px;
+.price-table {
+    border: 1px solid #444;
+    border-radius: 5px;
     padding: 10px;
-    width: 150px; /* Fixed width */
-    text-align: center; /* Centered text */
-    transition: border 0.3s ease; /* Border transition */
+    margin: 10px;
+    flex: 1;
+    transition: border 0.3s;
 }
 
-.token img {
-    width: 100%; /* Responsive image */
-    height: auto; /* Maintain aspect ratio */
-    border-radius: 8px; /* Rounded corners for images */
+.table-container {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
 }
 
-.token:hover {
-    border: 1px solid #007bff; /* Change border color on hover */
+.table-container > div {
+    min-width: 300px; /* Minimum width for each table */
+    max-width: 48%; /* Maximum width to allow two tables side by side */
 }
 
-/* ENS sales styles */
-#ens-sales {
-    margin-top: 20px;
+.table-container > div:hover {
+    border: 1px solid #ff9800; /* Animated border on hover */
 }
 
-h2 {
-    width: 100%; /* Full width for titles */
-    text-align: center;
-    margin: 15px 0; /* Margin around titles */
+.light-mode {
+    background-color: #ffffff;
+    color: #000000;
 }
 
-/* Media queries for responsiveness */
-@media (max-width: 768px) {
-    .token {
-        width: 100px; /* Smaller width for mobile */
-    }
+.light-mode .price-table {
+    border: 1px solid #ccc;
 }
 
-@media (max-width: 480px) {
-    .token {
-        width: 80px; /* Even smaller width for very small screens */
-    }
+.dark-mode .price-table {
+    border: 1px solid #444;
+}
+
+.price-table img {
+    max-width: 50px; /* Set max width for images */
+    margin-right: 10px; /* Add margin for spacing */
+}
+
+button {
+    padding: 10px;
+    cursor: pointer;
+    border: none;
+    border-radius: 5px;
+    background-color: #007bff;
+    color: white;
 }
