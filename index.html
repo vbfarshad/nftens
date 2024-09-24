@@ -3,15 +3,28 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>NFT Price Tracker</title>
+    <title>NFT Price and ENS Sales Tracker</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body class="dark-mode"> <!-- Default is dark mode -->
     <div id="toggle-container">
         <button id="theme-toggle">Switch to Light Mode</button> <!-- Toggle Button -->
     </div>
-    <h1>NFT Price Tracker</h1>
-    <div id="prices"></div>
+    <h1>NFT Price and ENS Sales Tracker</h1>
+    
+    <div class="table-container">
+        <!-- NFT Prices Table -->
+        <div id="nft-prices">
+            <h2>NFT Prices</h2>
+            <div id="prices"></div>
+        </div>
+        
+        <!-- ENS Sales Table -->
+        <div id="ens-sales">
+            <h2>ENS Sales</h2>
+            <div id="ens-sales-data"></div>
+        </div>
+    </div>
 
     <script src="script.js"></script>
 
