@@ -1,86 +1,46 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>NFT and ENS Price Tracker</title>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      background-color: #f0f0f0;
-      padding: 20px;
-    }
-    .table-container {
-      display: flex;
-      gap: 20px;
-    }
-    table {
-      width: 100%;
-      border-collapse: collapse;
-      margin-bottom: 20px;
-    }
-    th, td {
-      border: 1px solid #ddd;
-      padding: 8px;
-      text-align: left;
-    }
-    th {
-      background-color: #4CAF50;
-      color: white;
-    }
-    img {
-      border-radius: 8px;
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NFT Price Tracker</title>
+    <link rel="stylesheet" href="style.css">
 </head>
-<body>
-  <h1>NFT and ENS Price Tracker</h1>
-  
-  <div class="table-container">
-    <!-- Table for NFT Collection 1 -->
-    <table id="nft-sales-0">
-      <thead>
-        <tr>
-          <th>Image</th>
-          <th>NFT Name</th>
-          <th>Price (ETH)</th>
-        </tr>
-      </thead>
-      <tbody>
-        <!-- NFT prices will be injected here for collection 1 -->
-      </tbody>
-    </table>
+<body class="dark-mode"> <!-- Default is dark mode -->
+    <div id="toggle-container">
+        <button id="theme-toggle">Switch to Light Mode</button> <!-- Toggle Button -->
+    </div>
+    <h1>NFT Price Tracker</h1>
+    <div id="prices"></div>
 
-    <!-- Table for NFT Collection 2 (Add more tables as needed) -->
-    <table id="nft-sales-1">
-      <thead>
-        <tr>
-          <th>Image</th>
-          <th>NFT Name</th>
-          <th>Price (ETH)</th>
-        </tr>
-      </thead>
-      <tbody>
-        <!-- NFT prices will be injected here for collection 2 -->
-      </tbody>
-    </table>
-  </div>
+    <script src="script.js"></script>
 
-  <!-- ENS Sales Table -->
-  <h2>ENS Sales</h2>
-  <table id="ens-sales">
-    <thead>
-      <tr>
-        <th>ENS Domain</th>
-        <th>Sale Price (ETH)</th>
-        <th>Date Sold</th>
-      </tr>
-    </thead>
-    <tbody>
-      <!-- ENS sales data will be injected here -->
-    </tbody>
-  </table>
+    <!-- Add the JavaScript code to handle the toggle -->
+    <script>
+        const toggleButton = document.getElementById('theme-toggle');
+        const body = document.body;
 
-  <script src="script.js"></script>
+        // Check if user preference is stored
+        const savedTheme = localStorage.getItem('theme');
+
+        // Set the theme based on saved preference
+        if (savedTheme) {
+            body.className = savedTheme;
+            toggleButton.textContent = savedTheme === 'dark-mode' ? 'Switch to Light Mode' : 'Switch to Dark Mode';
+        }
+
+        // Toggle theme on button click
+        toggleButton.addEventListener('click', function () {
+            if (body.classList.contains('dark-mode')) {
+                body.classList.replace('dark-mode', 'light-mode');
+                toggleButton.textContent = 'Switch to Dark Mode';
+                localStorage.setItem('theme', 'light-mode');
+            } else {
+                body.classList.replace('light-mode', 'dark-mode');
+                toggleButton.textContent = 'Switch to Light Mode';
+                localStorage.setItem('theme', 'dark-mode');
+            }
+        });
+    </script>
 </body>
 </html>
