@@ -3,47 +3,32 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>NFT and ENS Price Tracker</title>
+    <title>NFT Price Tracker</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body class="dark-mode"> <!-- Default is dark mode -->
     <div id="toggle-container">
         <button id="theme-toggle">Switch to Light Mode</button> <!-- Toggle Button -->
     </div>
-    <h1>NFT and ENS Price Tracker</h1>
-
-    <!-- Wrapper for side-by-side layout -->
-    <div id="tracker-container">
-        <!-- ENS Sales Table -->
-        <div class="tracker-box">
-            <h2>ENS Sales</h2>
-            <div id="ens-sales"></div> <!-- ENS sales data will be shown here -->
-        </div>
-
-        <!-- NFT Prices Table -->
-        <div class="tracker-box">
-            <h2>NFT Prices</h2>
-            <div id="prices"></div> <!-- NFT prices will be shown here -->
-        </div>
+    <h1>NFT Price Tracker</h1>
+    <div class="table-container">
+        <div id="nft-prices" class="price-table"></div>
+        <div id="ens-sales" class="price-table"></div>
     </div>
 
     <script src="script.js"></script>
 
-    <!-- Add the JavaScript code to handle the toggle -->
     <script>
         const toggleButton = document.getElementById('theme-toggle');
         const body = document.body;
 
-        // Check if user preference is stored
         const savedTheme = localStorage.getItem('theme');
 
-        // Set the theme based on saved preference
         if (savedTheme) {
             body.className = savedTheme;
             toggleButton.textContent = savedTheme === 'dark-mode' ? 'Switch to Light Mode' : 'Switch to Dark Mode';
         }
 
-        // Toggle theme on button click
         toggleButton.addEventListener('click', function () {
             if (body.classList.contains('dark-mode')) {
                 body.classList.replace('dark-mode', 'light-mode');
